@@ -102,7 +102,7 @@ redis-server
 
 ---
 
-##📁 Project Structure
+## 📁 Project Structure
 ```
 AuthBox_OTP/
 ├─ manage.py
