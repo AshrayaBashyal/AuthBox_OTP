@@ -59,10 +59,10 @@ python -m venv .venv
 Install dependencies:
 
 pip install -r requirements.txt
-
+```
 
 2. Create a .env file with:
-```env
+```
 SECRET_KEY=your-secret-key
 DEBUG=True
 EMAIL_BACKEND=django.core.mail.backends.smtp.EmailBackend
@@ -74,24 +74,24 @@ EMAIL_HOST_PASSWORD=your-app-password
 DEFAULT_FROM_EMAIL=your-email@gmail.com
 REDIS_URL=redis://localhost:6379/0
 JWT_SIGNING_KEY=your-jwt-key
-
+```
 
 Run Django migrations:
 ```
 python manage.py migrate
-
+```
 Start development server:
 ```
 python manage.py runserver
-
+```
 Start Celery worker:
 ```
 celery -A authbox worker -l info
-
+```
 Optional: start Celery beat for scheduled tasks:
 ```
 celery -A authbox beat -l info
-
+```
 
 📁 Project Structure
 
