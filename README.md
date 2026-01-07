@@ -111,8 +111,8 @@ AuthBox_OTP/
 │  ├─ settings.py
 │  ├─ urls.py
 │  ├─ asgi.py
-│  └─ wsgi.py
-├─ celery.py             # Celery configuration
+│  ├─ celery.py          # Celery configuration
+│  └─ wsgi.py           
 ├─ apps/
 │  ├─ users/             # User model, serializers, views, urls
 │  │  ├─ __init__.py
