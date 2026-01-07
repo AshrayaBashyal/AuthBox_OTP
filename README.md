@@ -48,20 +48,23 @@ These should go into a `.env` file (already excluded in `.gitignore`).
 
 1. Clone the repository:
 
-```bash
+```
 git clone https://github.com/AshrayaBashyal/AuthBox_OTP.git
 cd AuthBox_OTP
-Create & activate a virtual environment:
-
+```
+2. Create & activate a virtual environment:
+```
 python -m venv .venv
 .venv\Scripts\Activate.ps1   # Windows PowerShell
 # source .venv/bin/activate  # macOS/Linux
-Install dependencies:
+```
 
+3. Install dependencies:
+```
 pip install -r requirements.txt
 ```
 
-2. Create a .env file with:
+4. Create a .env file with:
 ```
 SECRET_KEY=your-secret-key
 DEBUG=True
@@ -76,25 +79,31 @@ REDIS_URL=redis://localhost:6379/0
 JWT_SIGNING_KEY=your-jwt-key
 ```
 
-Run Django migrations:
+5. Run Django migrations:
 ```
 python manage.py migrate
 ```
-Start development server:
+6. Start development server:
 ```
 python manage.py runserver
 ```
-Start Celery worker:
+7. Start Celery worker:
 ```
 celery -A authbox worker -l info
 ```
-Optional: start Celery beat for scheduled tasks:
+8. Optional: start Celery beat for scheduled tasks:
 ```
 celery -A authbox beat -l info
 ```
+9. Make sure Redis server is running
+```
+redis-server
+```
 
-📁 Project Structure
+---
 
+##📁 Project Structure
+```
 AuthBox_OTP/
 ├─ manage.py
 ├─ authbox/              # Django project settings
@@ -121,3 +130,4 @@ AuthBox_OTP/
 │     └─ tasks.py
 ├─ requirements.txt
 └─ .env                  # Environment variables
+```
