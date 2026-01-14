@@ -7,6 +7,9 @@ from .serializers import (
 from apps.emails.services import send_verification_email_task, send_reset_password_email_task
 from .models import User
 from apps.otp.utils import verify_otp
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+from apps.otp.tasks import send_otp_email_task
 
 
 
@@ -32,3 +35,20 @@ class VerifyEmailView(APIView):
             user.save()
             return Response({"msg": "Email verified successfully."})
         return Response({"error": "Invalid or expired OTP."}, status=400)
+
+class LoginView(APIView):
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.validated_data["email"]
+        password = serializer.validated_data["password"]
+        user = authenticate(request, email=email, password=password)
+        if not user:
+            return Response({"error": "Invalid credentials"}, status=401)
+        if not user.is_verified:
+            return Response({"error": "Email not verified"}, status=403)
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+        })
