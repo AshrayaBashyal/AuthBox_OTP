@@ -70,3 +70,18 @@ class ForgotPasswordView(APIView):
 
         send_reset_password_email_task.delay(email)
         return Response({"msg": "OTP sent to your email for password reset."})
+
+class ResetPasswordView(APIView):
+    def post(self, request):
+        serializer = ResetPasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.validated_data["email"]
+        otp = serializer.validated_data["otp"]
+        new_password = serializer.validated_data["password"]
+        user = User.objects.get(email=email)
+        if verify_otp(user.otp_secret, otp):
+            user.set_password(new_password)
+            user.otp_secret = None
+            user.save()
+            return Response({"msg": "Password reset successfully."})
+        return Response({"error": "Invalid or expired OTP."}, status=400)
