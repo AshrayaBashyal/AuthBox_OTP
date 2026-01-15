@@ -52,3 +52,21 @@ class LoginView(APIView):
             "refresh": str(refresh),
             "access": str(refresh.access_token),
         })
+
+class ForgotPasswordView(APIView):
+    def post(self, request):
+        serializer = ForgotPasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.validated_data["email"]
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            # Prevent email enumeration
+            return Response({"msg": "If the email exists, an OTP was sent."})
+
+        if not user.is_verified:
+            return Response({"error": "Email not verified"}, status=403)
+
+        send_reset_password_email_task.delay(email)
+        return Response({"msg": "OTP sent to your email for password reset."})
