@@ -21,9 +21,9 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
 
-    "apps.users",
-    "apps.emails",
-    "apps.otp",
+    "apps.users.apps.UsersConfig",
+    "apps.emails.apps.EmailsConfig",
+    "apps.otp.apps.OtpConfig",
 ]
 
 MIDDLEWARE = [
