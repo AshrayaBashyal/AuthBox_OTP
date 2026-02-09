@@ -67,7 +67,7 @@ DATABASES = {
         # "PORT": os.getenv("DB_PORT")
     }
 }
-# 3. Only add credentials if we AREN'T using SQLite
+# Only add credentials if we AREN'T using SQLite
 if "sqlite" not in ENGINE:
     DATABASES["default"]["USER"] = os.environ["DB_USER"]      # Strict: Crash if missing
     DATABASES["default"]["PASSWORD"] = os.environ["DB_PASSWORD"] 
