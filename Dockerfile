@@ -4,6 +4,9 @@ FROM python:3.11-slim
 # 2️⃣ Prevent Python from writing .pyc files
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+# This ensures Django can find your settings
+ENV DJANGO_SETTINGS_MODULE=authbox.settings  
+
 
 # 3️⃣ Set working directory inside container
 WORKDIR /app
