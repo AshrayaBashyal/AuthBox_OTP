@@ -55,12 +55,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "authbox.wsgi.application"
 
+
+ENGINE = os.getenv("DB_ENGINE","django.db.backends.sqlite3")
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": ENGINE,
+        "NAME": os.getenv("DB_NAME", str(BASE_DIR / "db.sqlite3")),
+        # "USER": os.getenv("DB_USER"),
+        # "PASSWORD": os.getenv("DB_PASSWORD"),
+        # "HOST": os.getenv("DB_HOST"),
+        # "PORT": os.getenv("DB_PORT")
     }
 }
+# 3. Only add credentials if we AREN'T using SQLite
+if "sqlite" not in ENGINE:
+    DATABASES["default"]["USER"] = os.environ["DB_USER"]      # Strict: Crash if missing
+    DATABASES["default"]["PASSWORD"] = os.environ["DB_PASSWORD"] 
+    DATABASES["default"]["HOST"] = os.environ["DB_HOST"]
+    DATABASES["default"]["PORT"] = os.environ["DB_PORT"]
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
